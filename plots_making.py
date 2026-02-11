@@ -71,15 +71,19 @@ def plots_making(input_file, out_folder):
         plt.figure()
         plt.bar(x, y)
         if yerr is not None:
-            plt.errorbar(x, y, yerr=yerr, fmt="none", capsize=4, ecolor='k')
+            plt.errorbar(x, y, yerr=yerr, fmt="none", capsize=2, ecolor='k')
 
-        plt.xticks(x, folders, rotation=45, ha="right")
+        ax = plt.gca()
+        max_xticks = 30 
+        if len(folders) > max_xticks:
+            x_ticks_font = int(ax.get_xticklabels()[0].get_fontsize() * max_xticks / len(folders))
+        plt.xticks(x, folders, rotation=45, ha="right", fontsize=x_ticks_font)
         plt.ylabel(col)
         plt.title(f"{col} (mean ± CI95)")
         plt.tight_layout()
 
         fname = f"bar_{col.replace('/', '_').replace('[','').replace(']','').replace('²','2')}.png"
-        plt.savefig(os.path.join(out_folder, fname), dpi=300)
+        plt.savefig(os.path.join(out_folder, fname), bbox_inches='tight', dpi=300)
         plt.close()
 
 
@@ -109,14 +113,15 @@ def plots_making(input_file, out_folder):
                 label=folder,
                 color=colors[i % len(colors)]
             )
-
+        
+        
         plt.xticks(np.arange(len(mean_wls)), mean_wls, rotation=90)
         plt.xlabel("Wavelength (nm)")
         plt.ylabel("mean")
         plt.title("Mean spectrum (mean ± CI95)")
-        plt.legend()
+        plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
         plt.tight_layout()
-        plt.savefig(os.path.join(out_folder, "mean_spectrum_bar_all_folders.png"), dpi=300)
+        plt.savefig(os.path.join(out_folder, "mean_spectrum_bar_all_folders.png"), bbox_inches='tight', dpi=300)
         plt.close()
 
 
@@ -146,9 +151,9 @@ def plots_making(input_file, out_folder):
         plt.xlabel("Wavelength (nm)")
         plt.ylabel("T")
         plt.title("T spectra (mean ± CI95)")
-        plt.legend()
+        plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
         plt.tight_layout()
-        plt.savefig(os.path.join(out_folder, "T_spectra_all_folders.png"), dpi=300)
+        plt.savefig(os.path.join(out_folder, "T_spectra_all_folders.png"), bbox_inches='tight', dpi=300)
         plt.close()
 
 
@@ -168,9 +173,9 @@ def plots_making(input_file, out_folder):
         plt.xlabel("Wavelength (nm)")
         plt.ylabel("CV (RMS)")
         plt.title("CV spectra (RMS)")
-        plt.legend()
+        plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
         plt.tight_layout()
-        plt.savefig(os.path.join(out_folder, "CV_spectra_all_folders.png"), dpi=300)
+        plt.savefig(os.path.join(out_folder, "CV_spectra_all_folders.png"), bbox_inches='tight', dpi=300)
         plt.close()
 
 
