@@ -77,6 +77,8 @@ def plots_making(input_file, out_folder):
         max_xticks = 30 
         if len(folders) > max_xticks:
             x_ticks_font = int(ax.get_xticklabels()[0].get_fontsize() * max_xticks / len(folders))
+        else:
+            x_ticks_font = ax.get_xticklabels()[0].get_fontsize()
         plt.xticks(x, folders, rotation=45, ha="right", fontsize=x_ticks_font)
         plt.ylabel(col)
         plt.title(f"{col} (mean ± CI95)")
